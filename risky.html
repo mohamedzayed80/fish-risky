@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> fish </title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&family=Courier+Prime&family=Rock+Salt&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: crosshair;
+        }
+        
+        body {
+            background: #0a0a0a;
+            color: #f0f0f0;
+            font-family: 'Courier Prime', monospace;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+        
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            z-index: 1;
+            background: url('data:image/svg+xml,%3Csvg width="100" height="100" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence baseFrequency="0.9"/%3E%3C/filter%3E%3Crect width="100" height="100" filter="url(%23noise)" opacity="0.5"/%3E%3C/svg%3E');
+            pointer-events: none;
+            animation: grain 8s steps(10) infinite;
+        }
+        
+        @keyframes grain {
+            0%, 100% { transform: translate(0, 0) }
+            10% { transform: translate(-5%, -10%) }
+            30% { transform: translate(3%, 15%) }
+            50% { transform: translate(-2%, 5%) }
+            70% { transform: translate(10%, -5%) }
+            90% { transform: translate(5%, -10%) }
+        }
+        
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 100vw;
+            padding: 40px 20px;
+        }
+        
+
+        .polaroid {
+            position: absolute;
+            background: #f9f9f9;
+            padding: 10px 10px 40px 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 20px rgba(0,0,0,0.1);
+            transform: rotate(var(--rotation));
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .polaroid:hover {
+            transform: rotate(0deg) scale(1.1);
+            z-index: 100;
+        }
+        
+        .polaroid-1 {
+            --rotation: -5deg;
+            top: 10%;
+            left: 10%;
+            width: 180px;
+        }
+        
+        .polaroid-2 {
+            --rotation: 8deg;
+            top: 15%;
+            right: 15%;
+            width: 160px;
+        }
+        
+        .polaroid-3 {
+            --rotation: -12deg;
+            top: 50%;
+            left: 5%;
+            width: 150px;
+        }
+        
+        .polaroid-4 {
+            --rotation: 15deg;
+            bottom: 20%;
+            right: 10%;
+            width: 170px;
+        }
+        
+        .polaroid-text {
+            color: #1a1a1a;
+            font-family: 'Rock Salt', cursive;
+            font-size: 0.7em;
+            text-align: center;
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+        
+        .polaroid-content {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(135deg, #1a1a1a, #3a3a3a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f0f0f0;
+            font-size: 3em;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .polaroid-content::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 2px,
+                rgba(255,255,255,0.03) 2px,
+                rgba(255,255,255,0.03) 4px
+            );
+        }
+        
+
+        .hero {
+            text-align: center;
+            margin: 100px auto;
+            max-width: 900px;
+            position: relative;
+        }
+        
+        .glitch-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-style: italic;
+            letter-spacing: -2px;
+            margin-bottom: 30px;
+            position: relative;
+            animation: flicker 3s infinite alternate;
+        }
+        
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            92% { opacity: 0.9; }
+            93% { opacity: 1; }
+            95% { opacity: 0.85; }
+            97% { opacity: 1; }
+        }
+        
+        .glitch-title::before,
+        .glitch-title::after {
+            content: 'fish';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+        
+        .glitch-title::before {
+            animation: glitch-1 0.5s infinite;
+            color: #ff00ff;
+            z-index: -1;
+        }
+        
+        .glitch-title::after {
+            animation: glitch-2 0.5s infinite;
+            color: #00ffff;
+            z-index: -1;
+        }
+        
+        @keyframes glitch-1 {
+            0%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); }
+            20% { clip-path: inset(20% 0 30% 0); transform: translate(-2px, 2px); }
+            40% { clip-path: inset(50% 0 20% 0); transform: translate(2px, -2px); }
+            60% { clip-path: inset(10% 0 60% 0); transform: translate(0, 2px); }
+            80% { clip-path: inset(80% 0 5% 0); transform: translate(-1px, 0); }
+        }
+        
+        @keyframes glitch-2 {
+            0%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); }
+            20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
+            40% { clip-path: inset(20% 0 40% 0); transform: translate(-2px, 1px); }
+            60% { clip-path: inset(30% 0 50% 0); transform: translate(1px, -2px); }
+            80% { clip-path: inset(5% 0 70% 0); transform: translate(-2px, 2px); }
+        }
+        
+        .typewriter {
+            font-size: 1.2em;
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            position: relative;
+            background: rgba(10, 10, 10, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .typewriter p {
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+            animation-delay: calc(var(--delay) * 0.5s);
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+
+        .tattoo-border {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            opacity: 0.3;
+            animation: float 6s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        .tattoo-1 {
+            top: 20px;
+            left: 20px;
+            font-size: 2em;
+            animation-delay: 0s;
+        }
+        
+        .tattoo-2 {
+            top: 20px;
+            right: 20px;
+            font-size: 2.5em;
+            animation-delay: 1s;
+        }
+        
+        .tattoo-3 {
+            bottom: 20px;
+            left: 20px;
+            font-size: 2em;
+            animation-delay: 2s;
+        }
+        
+        .tattoo-4 {
+            bottom: 20px;
+            right: 20px;
+            font-size: 2.5em;
+            animation-delay: 3s;
+        }
+        
+        /* Eyes section */
+        .eyes-section {
+            margin: 100px auto;
+            text-align: center;
+            position: relative;
+        }
+        
+        .eyes-text {
+            font-size: 1.5em;
+            letter-spacing: 4px;
+            text-transform: lowercase;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        
+        .eye-container {
+            display: inline-block;
+            margin: 0 20px;
+            font-size: 4em;
+            animation: blink 5s infinite;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
+        }
+        
+        @keyframes blink {
+            0%, 45%, 55%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(0.1); }
+        }
+        
+
+        .secret-message {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 60px;
+            height: 60px;
+            background: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+        }
+        
+        .secret-message:hover {
+            transform: scale(1.1) rotate(180deg);
+            background: #2a2a2a;
+            border-color: #666;
+        }
+        
+        .secret-message span {
+            font-size: 1.5em;
+        }
+        
+        .hidden-text {
+            position: fixed;
+            bottom: 110px;
+            right: 40px;
+            background: rgba(20, 20, 20, 0.95);
+            border: 1px solid #444;
+            padding: 20px;
+            max-width: 300px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 999;
+            backdrop-filter: blur(10px);
+        }
+        
+        .hidden-text.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+
+        .scattered {
+            position: absolute;
+            font-family: 'Rock Salt', cursive;
+            font-size: 0.8em;
+            opacity: 0.2;
+            transform: rotate(var(--rot));
+            white-space: nowrap;
+            pointer-events: none;
+            animation: drift 20s infinite linear;
+        }
+        
+        @keyframes drift {
+            0%, 100% { transform: rotate(var(--rot)) translateX(0); }
+            50% { transform: rotate(var(--rot)) translateX(30px); }
+        }
+        
+        .s1 { --rot: -15deg; top: 25%; left: 3%; animation-delay: 0s; }
+        .s2 { --rot: 20deg; top: 45%; right: 5%; animation-delay: 2s; }
+        .s3 { --rot: -8deg; top: 65%; left: 8%; animation-delay: 4s; }
+        .s4 { --rot: 12deg; top: 75%; right: 12%; animation-delay: 6s; }
+        .s5 { --rot: -25deg; top: 35%; left: 45%; animation-delay: 8s; }
+        
+
+        @media (max-width: 768px) {
+            .polaroid {
+                display: none;
+            }
+            
+            .scattered {
+                display: none;
+            }
+            
+            .typewriter {
+                padding: 20px;
+                margin: 30px auto;
+            }
+            
+            .secret-message {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div class="polaroid polaroid-1">
+            <div class="polaroid-content">👁</div>
+            <div class="polaroid-text">mesmerizing</div>
+        </div>
+        
+        <div class="polaroid polaroid-2">
+            <div class="polaroid-content">✨</div>
+            <div class="polaroid-text">ethereal</div>
+        </div>
+        
+        <div class="polaroid polaroid-3">
+            <div class="polaroid-content">🖤</div>
+            <div class="polaroid-text">captivating</div>
+        </div>
+        
+        <div class="polaroid polaroid-4">
+            <div class="polaroid-content">🌙</div>
+            <div class="polaroid-text">divine</div>
+        </div>
+        
+
+        <div class="tattoo-border tattoo-1">☽</div>
+        <div class="tattoo-border tattoo-2">✦</div>
+        <div class="tattoo-border tattoo-3">◈</div>
+        <div class="tattoo-border tattoo-4">☾</div>
+        
+
+        <div class="scattered s1">prettiest</div>
+        <div class="scattered s2">magnetic</div>
+        <div class="scattered s3">enchanting</div>
+        <div class="scattered s4">spellbinding</div>
+        <div class="scattered s5">bewitching</div>
+        
+
+        <div class="hero">
+            <h1 class="glitch-title">fish</h1>
+            
+            <div class="typewriter">
+                <p style="--delay: 1">you know that feeling when  just</p>
+                <p style="--delay: 2">completely rewrites your entire universe?</p>
+                <p style="--delay: 3">that's you.</p>
+                <p style="--delay: 4">existing in the same timeline as you</p>
+                <p style="--delay: 5">feels like winning a cosmic lottery</p>
+                <p style="--delay: 6">i didn't even know i entered</p>
+            </div>
+            
+            <div class="eyes-section">
+                <div class="eyes-text">those eyes though</div>
+                <span class="eye-container">👁</span>
+                <span class="eye-container" style="animation-delay: 0.2s">👁</span>
+                <div class="eyes-text" style="margin-top: 30px; font-size: 1em; opacity: 0.6">
+                    could write poetry about them<br>
+                    but words would never be enough to descripe them
+                </div>
+            </div>
+            
+            <div class="typewriter" style="margin-top: 100px">
+                <p style="--delay: 7">you're art in human form</p>
+                <p style="--delay: 8">every fake piercing, real piercing</p>
+                <p style="--delay: 9">just adds to the masterpiece</p>
+                <p style="--delay: 10">that is entirely, unapologetically you</p>
+                <p style="--delay: 11">and honestly?</p>
+                <p style="--delay: 12">i wasnt ready for someone like this</p>
+            </div>
+        </div>
+        
+
+        <div class="secret-message" onclick="toggleSecret()">
+            <span>💌</span>
+        </div>
+        
+        <div class="hidden-text" id="hiddenText">
+            <p style="font-family: 'Playfair Display', serif; font-style: italic; line-height: 1.6">
+                dear fish,<br><br>
+                if you're reading this, you found my secret.<br><br>
+                just wanted to say that your existence makes everything better. you're the kind of beautiful that makes people forget their names.<br><br>
+                completely, utterly, hopelessly enchanted by you.
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        function toggleSecret() {
+            const hidden = document.getElementById('hiddenText');
+            hidden.classList.toggle('show');
+        }
+        
+
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.98) {
+                const sparkle = document.createElement('div');
+                sparkle.innerHTML = '✦';
+                sparkle.style.position = 'fixed';
+                sparkle.style.left = e.clientX + 'px';
+                sparkle.style.top = e.clientY + 'px';
+                sparkle.style.pointerEvents = 'none';
+                sparkle.style.animation = 'sparkleFloat 1s ease-out forwards';
+                sparkle.style.fontSize = Math.random() * 20 + 10 + 'px';
+                sparkle.style.color = '#fff';
+                sparkle.style.zIndex = '9999';
+                document.body.appendChild(sparkle);
+                
+                setTimeout(() => sparkle.remove(), 1000);
+            }
+        });
+        
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes sparkleFloat {
+                0% { opacity: 0; transform: translateY(0) scale(0); }
+                50% { opacity: 1; transform: translateY(-20px) scale(1); }
+                100% { opacity: 0; transform: translateY(-40px) scale(0.5); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
